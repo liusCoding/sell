@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration debug="true" scan="true" scanPeriod="1 seconds">
+
+
+    <!--ConsoleAppender 用于在屏幕上输出日志-->
+    <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <pattern>
+                %d - %msg%n
+            </pattern>
+        </layout>
+    </appender>
+
+    <appender name="fileInfoLog" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <onMatch>DENY</onMatch>
+            <onMismatch>ACCEPT</onMismatch>
+        </filter>
+        <!--定义日志滚动的策略-->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!--定义文件滚动时的文件名的格式-->
+            <fileNamePattern>
+                E:/sell/log/info.%d.log
+            </fileNamePattern>
+            <!--60天的时间周期，日志量最大20GB-->
+            <maxHistory>60</maxHistory>
+            <!-- 该属性在 1.1.6版本后 才开始支持-->
+            <totalSizeCap>20GB</totalSizeCap>
+        </rollingPolicy>
+        <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+            <!--每个日志文件最大100MB-->
+            <maxFileSize>100MB</maxFileSize>
+        </triggeringPolicy>
+        <!--定义输出格式-->
+        <encoder>
+            <pattern>%d [%thread] %-5level %logger{36} [%file : %line] - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="fileErrorLog" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            ERROR
+        </filter>
+        <!--定义日志滚动的策略-->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!--定义文件滚动时的文件名的格式-->
+            <fileNamePattern>
+                E:/sell/log/error.%d.log
+            </fileNamePattern>
+            <!--60天的时间周期，日志量最大20GB-->
+            <maxHistory>60</maxHistory>
+            <!-- 该属性在 1.1.6版本后 才开始支持-->
+            <totalSizeCap>20GB</totalSizeCap>
+        </rollingPolicy>
+        <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+            <!--每个日志文件最大100MB-->
+            <maxFileSize>100MB</maxFileSize>
+        </triggeringPolicy>
+        <!--定义输出格式-->
+        <encoder>
+            <pattern>%d [%thread] %-5level %logger{36} [%file : %line] - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+<!--    &lt;!&ndash;root是默认的logger 这里设定输出级别是debug&ndash;&gt;-->
+<!--    <root level="trace">-->
+<!--        &lt;!&ndash;定义了两个appender，日志会通过往这两个appender里面写&ndash;&gt;-->
+<!--        <appender-ref ref="stdout"/>-->
+<!--        <appender-ref ref="file"/>-->
+<!--    </root>-->
+
+<!--    &lt;!&ndash;对于类路径以 com.example.logback 开头的Logger,输出级别设置为warn,并且只输出到控制台&ndash;&gt;-->
+<!--    &lt;!&ndash;这个logger没有指定appender，它会继承root节点中定义的那些appender&ndash;&gt;-->
+<!--    <logger name="com.example.logback" level="warn"/>-->
+
+<!--    &lt;!&ndash;通过 LoggerFactory.getLogger("mytest") 可以获取到这个logger&ndash;&gt;-->
+<!--    &lt;!&ndash;由于这个logger自动继承了root的appender，root中已经有stdout的appender了，自己这边又引入了stdout的appender&ndash;&gt;-->
+<!--    &lt;!&ndash;如果没有设置 additivity="false" ,就会导致一条日志在控制台输出两次的情况&ndash;&gt;-->
+<!--    &lt;!&ndash;additivity表示要不要使用rootLogger配置的appender进行输出&ndash;&gt;-->
+<!--    <logger name="mytest" level="info" additivity="false">-->
+<!--        <appender-ref ref="stdout"/>-->
+<!--    </logger>-->
+
+<!--    &lt;!&ndash;由于设置了 additivity="false" ，所以输出时不会使用rootLogger的appender&ndash;&gt;-->
+<!--    &lt;!&ndash;但是这个logger本身又没有配置appender，所以使用这个logger输出日志的话就不会输出到任何地方&ndash;&gt;-->
+<!--    <logger name="mytest2" level="info" additivity="false"/>-->
+
+    <root level="info" >
+        <appender-ref ref="stdout"></appender-ref>
+        <appender-ref ref="fileInfoLog"></appender-ref>
+        <appender-ref ref="fileErrorLog"></appender-ref>
+    </root>
+</configuration>
+
