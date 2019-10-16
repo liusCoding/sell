@@ -32,5 +32,13 @@ public class LoggerTest {
         log.error("error");
     }
 
+
+    @Test
+    public void test(){
+        String s1 = "133335";
+        String s2 = "1333122";
+
+       // if(StringUtils.containsIgnoreCase())
+    }
 }
 
