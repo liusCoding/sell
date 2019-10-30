@@ -1,6 +1,7 @@
 package com.ls.sell.service;
 
 import com.ls.sell.dataobject.ProductInfo;
+import com.ls.sell.dto.CartDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -14,6 +15,12 @@ import java.util.List;
  */
 public interface ProductInfoService {
 
+    /**
+     *通过id查找商品信息
+     * @author liushuai
+      * @param productId
+     * @return
+     */
     ProductInfo findById(String productId);
 
     /**
@@ -22,7 +29,7 @@ public interface ProductInfoService {
      * @param
      * @return List<ProductInfo>
      */
-    List<ProductInfo> findupAll();
+    List<ProductInfo> findUpAll();
 
     /**
      * 分页查询
@@ -32,11 +39,30 @@ public interface ProductInfoService {
      */
     Page<ProductInfo> findAll(Pageable pageable);
 
-
+    /**
+     *  保存商品
+     * @author liushuai
+     * @param productInfo
+     * @return ProductInfo
+     */
     ProductInfo save(ProductInfo productInfo);
 
-    //加库存
+    /**
+     *  加库存
+     * @author liushuai
+     * @param cartDTOList
+     * @return
+     */
+    void increaseStock(List<CartDTO> cartDTOList);
 
-    //减库存
+    /**
+     * 减去库存
+     * @author liushuai
+     * @param cartDTOList
+     * @return
+     */
+    void decreaseStock(List<CartDTO> cartDTOList);
+
+
 
 }
