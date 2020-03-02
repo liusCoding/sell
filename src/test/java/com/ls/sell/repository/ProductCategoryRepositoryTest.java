@@ -1,5 +1,5 @@
 package com.ls.sell.repository;
-import com.ls.sell.dataobject.ProductCategory;
+import com.ls.sell.pojo.ProductCategory;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;

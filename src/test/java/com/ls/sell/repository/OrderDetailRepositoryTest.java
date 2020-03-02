@@ -1,7 +1,7 @@
 package com.ls.sell.repository;
 
 
-import com.ls.sell.dataobject.OrderDetail;
+import com.ls.sell.pojo.OrderDetail;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -24,14 +24,14 @@ public class OrderDetailRepositoryTest {
     @Test
     public void saveTest(){
         OrderDetail orderDetail = OrderDetail.builder()
-                .orderDetailId("1234567").orderId("10011")
+                .orderDetailId("12345676").orderId("10011")
                 .productId("123").productName("香辣小龙虾")
                 .productPrice(new BigDecimal(88.8)).productQuantity(2)
                 .productIcon("http://xxx.jpg").build();
 
         OrderDetail result = repository.save(orderDetail);
 
-        Assert.assertEquals("123456",result.getOrderDetailId());
+        Assert.assertEquals("12345676",result.getOrderDetailId());
     }
 
 

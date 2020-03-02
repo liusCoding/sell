@@ -1,25 +1,51 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
-    <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.1.6.RELEASE</version>
-        <relativePath/> <!-- lookup parent from repository -->
-    </parent>
-    <groupId>com.ls</groupId>
-    <artifactId>sell</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-    <name>sell</name>
-    <description>Demo project for Spring Boot</description>
-    <packaging>war</packaging>
-    <properties>
-        <java.version>1.8</java.version>
-    </properties>
+联调：
+本机hosts文件：虚拟机ip sell.com
 
-    <dependencies>
-        <dependency>
+虚拟机nginx：server_name  sell.com
+
+
+前端项目路径：/opt/code/sell_fe_buyer/config/
+
+构建命令：npm run bulid 
+
+将构建好的文件拷贝到/opt/data/wwwroot/sell/
+
+cp -r dist/* /opt/data/wwwroot/sell/
+
+解决方案：
+
+1、 删除所有以.lastUpdate结尾的文件
+
+a) 1、切换到maven的本地仓库
+
+b) 2、在当前目录打开cmd命令行
+
+c) 3、执行命令：for /r %i in (*.lastUpdated) do del %i
+
+
+## 第七讲
+
+- 微信授权
+- 微信支付
+- 微信退款
+
+
+获取openId
+
+两种方式
+- 手工方式
+- 利用第三方sdk
+
+
+
+## 工具
+
+内网穿透
+
+https://natapp.cn
+
+
+   <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-tomcat</artifactId>
             <scope>provided</scope>
@@ -81,23 +107,4 @@
             <version>3.5.0</version>
         </dependency>
 
-        <dependency>
-            <groupId>cn.springboot</groupId>
-            <artifactId>best-pay-sdk</artifactId>
-            <version>1.3.0</version>
-        </dependency>
-    </dependencies>
 
-
-    <build>
-        <finalName>sell</finalName>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </build>
-
-
-</project>

@@ -1,7 +1,7 @@
 package com.ls.sell.service.impl;
 
-import com.ls.sell.dataobject.ProductInfo;
-import com.ls.sell.service.ProductInfoService;
+import com.ls.sell.pojo.ProductInfo;
+import com.ls.sell.service.IProductInfoService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,20 +15,20 @@ import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class ProductInfoServiceImplTest {
+public class IProductInfoServiceImplTest {
 
     @Autowired
-    private ProductInfoService  productInfoService;
+    private IProductInfoService IProductInfoService;
     @Test
     public void findById() {
 
-        ProductInfo result = productInfoService.findById("1");
+        ProductInfo result = IProductInfoService.findById("1");
         System.out.println(result);
     }
 
     @Test
-    public void findupAll() {
-        List<ProductInfo> productInfos = productInfoService.findupAll();
+    public void findUpAll() {
+        List<ProductInfo> productInfos = IProductInfoService.findUpAll();
         System.out.println(productInfos);
     }
 
@@ -36,7 +36,7 @@ public class ProductInfoServiceImplTest {
     public void findAll() {
 
         PageRequest page = PageRequest.of(0,2);
-        Page<ProductInfo> result = productInfoService.findAll(page);
+        Page<ProductInfo> result = IProductInfoService.findAll(page);
         System.out.println(result.getTotalElements());
     }
 
@@ -52,7 +52,7 @@ public class ProductInfoServiceImplTest {
         productInfo.setProductStatus(0);
         productInfo.setProductStock(100);
 
-        ProductInfo result = productInfoService.save(productInfo);
+        ProductInfo result = IProductInfoService.save(productInfo);
 
         System.out.println(result);
     }

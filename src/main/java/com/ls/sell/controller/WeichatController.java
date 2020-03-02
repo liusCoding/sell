@@ -1,5 +1,6 @@
 package com.ls.sell.controller;
 
+import com.ls.sell.config.ProjectUrlConfig;
 import com.ls.sell.enums.ResultEunm;
 import com.ls.sell.exception.SellException;
 import lombok.extern.slf4j.Slf4j;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
 /**
@@ -30,14 +32,22 @@ public class WeichatController {
     @Autowired
     private WxMpService wxMpService;
 
+    @Autowired
+    private ProjectUrlConfig projectUrlConfig;
+
     @GetMapping("/authorize")
     public String  authorize(@RequestParam("returnUrl") String returnUrl){
         //1.配置
         //2.调用方法
 
-        String url = "http://liuscoding.natapp1.cc/wechat/userInfo";
-        String redirectUrl = wxMpService.oauth2buildAuthorizationUrl(url, WxConsts.OAuth2Scope.SNSAPI_BASE, URLEncoder.encode(url));
-
+        String url = projectUrlConfig.getWechatMpauthorize() + "/sell/wechat/userInfo";
+        String redirectUrl = null;
+        try {
+            redirectUrl = wxMpService.oauth2buildAuthorizationUrl(url, WxConsts.OAuth2Scope.SNSAPI_BASE, URLEncoder.encode(returnUrl,"GBK"));
+        } catch (UnsupportedEncodingException e) {
+            log.error("returnUrl Encode失败:{}",returnUrl);
+            throw  new SellException(ResultEunm.URLENCODER_FAIL);
+        }
         return "redirect:"+redirectUrl;
     }
 
@@ -49,7 +59,7 @@ public class WeichatController {
         WxMpOAuth2AccessToken wxMpOAuth2AccessToken = new WxMpOAuth2AccessToken();
 
         try {
-            wxMpService.oauth2getAccessToken(code);
+            wxMpOAuth2AccessToken =  wxMpService.oauth2getAccessToken(code);
         } catch (WxErrorException e) {
 
             log.error("【微信网页授权】{}",e);
@@ -58,6 +68,6 @@ public class WeichatController {
 
         String openId = wxMpOAuth2AccessToken.getOpenId();
 
-        return "redirect:"+returnUrl+"?openId="+openId;
+        return "redirect:"+returnUrl+"?openid="+openId;
     }
 }

@@ -1,6 +1,6 @@
 package com.ls.sell.repository;
 
-import com.ls.sell.dataobject.OrderMaster;
+import com.ls.sell.pojo.OrderMaster;
 import com.ls.sell.enums.OrderStatusEnums;
 import com.ls.sell.enums.PayStatusEnums;
 import org.junit.Assert;
@@ -40,7 +40,7 @@ public class OrderMasterRepositoryTest {
 
     @Test
     public void findByOpenIdTest(){
-        Pageable page = new PageRequest(0, 2);
+        Pageable page =  PageRequest.of(0, 2);
         Page<OrderMaster> result = repository.findByBuyerOpenid("abc123", page);
 
         Assert.assertNotEquals(0,result.getContent().size());

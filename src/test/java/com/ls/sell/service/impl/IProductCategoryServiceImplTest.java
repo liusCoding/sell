@@ -1,7 +1,7 @@
 package com.ls.sell.service.impl;
 
-import com.ls.sell.dataobject.ProductCategory;
-import com.ls.sell.service.ProductCategoryService;
+import com.ls.sell.pojo.ProductCategory;
+import com.ls.sell.service.IProductCategoryService;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,29 +14,29 @@ import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class ProductCategoryServiceImplTest {
+public class IProductCategoryServiceImplTest {
 
     @Autowired
-    private ProductCategoryService productCategoryService;
+    private IProductCategoryService IProductCategoryService;
 
     @Test
     public void findById() {
-        ProductCategory result = productCategoryService.findById(1);
+        ProductCategory result = IProductCategoryService.findById(1);
 
         Assert.assertNotNull(result);
     }
 
     @Test
     public void findAll() {
-        List<ProductCategory> result = productCategoryService.findAll();
+        List<ProductCategory> result = IProductCategoryService.findAll();
 
         Assert.assertNotEquals(0,result.size());
     }
 
     @Test
     public void findByCategoryTypeIn() {
-        List<Integer> categorytypes = Arrays.asList(1, 3, 4);
-        List<ProductCategory> result = productCategoryService.findByCategoryTypeIn(categorytypes);
+        List<Integer> categories = Arrays.asList(1, 3, 4);
+        List<ProductCategory> result = IProductCategoryService.findByCategoryTypeIn(categories);
 
         Assert.assertNotEquals(0,result.size());
     }
@@ -44,9 +44,9 @@ public class ProductCategoryServiceImplTest {
     @Test
     public void save() {
 
-        ProductCategory productCategory = new ProductCategory("美酒", 9);
+        ProductCategory productCategory = new ProductCategory("5折起", 20);
 
-        ProductCategory result = productCategoryService.save(productCategory);
+        ProductCategory result = IProductCategoryService.save(productCategory);
 
         Assert.assertNotNull(result);
     }
