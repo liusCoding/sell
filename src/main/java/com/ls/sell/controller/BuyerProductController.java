@@ -1,9 +1,9 @@
 package com.ls.sell.controller;
 
-import com.ls.sell.dataobject.ProductCategory;
-import com.ls.sell.dataobject.ProductInfo;
-import com.ls.sell.service.ProductCategoryService;
-import com.ls.sell.service.ProductInfoService;
+import com.ls.sell.pojo.ProductCategory;
+import com.ls.sell.pojo.ProductInfo;
+import com.ls.sell.service.IProductCategoryService;
+import com.ls.sell.service.IProductInfoService;
 import com.ls.sell.utils.ResultVOUtil;
 import com.ls.sell.vo.ProductInfoVO;
 import com.ls.sell.vo.ProductVO;
@@ -27,29 +27,29 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("buyer/product")
-public class BuyProductController {
+public class BuyerProductController {
 
     @Autowired
-    private ProductInfoService productInfoService;
+    private IProductInfoService IProductInfoService;
 
     @Autowired
-    private ProductCategoryService productCategoryService;
+    private IProductCategoryService IProductCategoryService;
     @GetMapping("/list")
     public ResultVO list(){
 
         //1.查询所有上架的商品
-        List<ProductInfo> productInfos = productInfoService.findupAll();
+        List<ProductInfo> productInfos = IProductInfoService.findUpAll();
 
         //2.查询类目
-        List<Integer> categoryTypeList = productInfos.stream().map(e -> e.getCategoryType())
+        List<Integer> categoryTypeList = productInfos.stream().map( ProductInfo::getCategoryType)
                 .collect(Collectors.toList());
 
-        List<ProductCategory> productCategorys = productCategoryService.findByCategoryTypeIn(categoryTypeList);
+        List<ProductCategory> productCategories = IProductCategoryService.findByCategoryTypeIn(categoryTypeList);
 
        //3.数据封装
         //所有类目的商品
         List<ProductVO> productVOList = new ArrayList<>();
-        for (ProductCategory productCategory : productCategorys) {
+        for (ProductCategory productCategory : productCategories) {
             //一个类目的编号和名字
             ProductVO productVO = new ProductVO();
             productVO.setCategoryType(productCategory.getCategoryType());

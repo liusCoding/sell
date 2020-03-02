@@ -1,9 +1,9 @@
 package com.ls.sell.service;
-import com.ls.sell.dataobject.ProductCategory;
+import com.ls.sell.pojo.ProductCategory;
 
 import java.util.List;
 
-public interface ProductCategoryService {
+public interface IProductCategoryService {
 
     ProductCategory findById(Integer categoryId);
 

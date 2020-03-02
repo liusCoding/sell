@@ -2,9 +2,13 @@ package com.ls.sell.enums;
 
 import lombok.Getter;
 
-//商品状态
+/**
+ * @author liusCoding
+ * @decription 商品状态
+ */
+
 @Getter
-public enum ProductStatusEnum {
+public enum ProductStatusEnum implements CodeEnums<Integer>{
     UP(0,"上架"),
 
     DOWN(1,"下架") ;

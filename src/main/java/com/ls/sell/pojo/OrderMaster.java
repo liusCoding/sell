@@ -1,4 +1,4 @@
-package com.ls.sell.dataobject;
+package com.ls.sell.pojo;
 
 import com.ls.sell.enums.OrderStatusEnums;
 import com.ls.sell.enums.PayStatusEnums;

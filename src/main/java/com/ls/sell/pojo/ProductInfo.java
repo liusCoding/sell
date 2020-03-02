@@ -1,4 +1,4 @@
-package com.ls.sell.dataobject;
+package com.ls.sell.pojo;
 import lombok.Data;
 
 import javax.persistence.Entity;

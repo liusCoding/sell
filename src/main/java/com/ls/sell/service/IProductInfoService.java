@@ -1,6 +1,6 @@
 package com.ls.sell.service;
 
-import com.ls.sell.dataobject.ProductInfo;
+import com.ls.sell.pojo.ProductInfo;
 import com.ls.sell.dto.CartDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -13,7 +13,7 @@ import java.util.List;
   * @param
  * @return
  */
-public interface ProductInfoService {
+public interface IProductInfoService {
 
     /**
      *通过id查找商品信息

@@ -1,8 +1,8 @@
 package com.ls.sell.service.impl;
 
-import com.ls.sell.dataobject.ProductCategory;
+import com.ls.sell.pojo.ProductCategory;
 import com.ls.sell.repository.ProductCategoryRepository;
-import com.ls.sell.service.ProductCategoryService;
+import com.ls.sell.service.IProductCategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +16,7 @@ import java.util.List;
  **/
 
 @Service
-public class ProductCategoryServiceImpl implements ProductCategoryService {
+public class ProductCategoryServiceImpl implements IProductCategoryService {
 
     @Autowired
     private ProductCategoryRepository productCategoryRepository;

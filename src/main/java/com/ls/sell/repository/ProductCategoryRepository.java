@@ -1,5 +1,5 @@
 package com.ls.sell.repository;
-import com.ls.sell.dataobject.ProductCategory;
+import com.ls.sell.pojo.ProductCategory;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

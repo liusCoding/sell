@@ -1,12 +1,12 @@
 package com.ls.sell.service.impl;
 
-import com.ls.sell.dataobject.ProductInfo;
+import com.ls.sell.pojo.ProductInfo;
 import com.ls.sell.dto.CartDTO;
 import com.ls.sell.enums.ProductStatusEnum;
 import com.ls.sell.enums.ResultEunm;
 import com.ls.sell.exception.SellException;
 import com.ls.sell.repository.ProductInfoRepository;
-import com.ls.sell.service.ProductInfoService;
+import com.ls.sell.service.IProductInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -23,7 +23,7 @@ import java.util.Objects;
  * @create: 2019-08-04 08:45
  **/
 @Service
-public class ProductInfoServiceImpl implements ProductInfoService {
+public class ProductInfoServiceImpl implements IProductInfoService {
 
     @Autowired
     private ProductInfoRepository productInfoRepository;
@@ -83,6 +83,7 @@ public class ProductInfoServiceImpl implements ProductInfoService {
      * @author liushuai
      */
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void decreaseStock(List<CartDTO> cartDTOList) {
         cartDTOList.forEach(
                 cartDTO -> {

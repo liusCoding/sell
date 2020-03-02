@@ -16,6 +16,7 @@ import java.util.List;
 @Data
 public class ProductVO {
 
+    //序列化后的名称
     @JsonProperty("name")
     private String categoryName;
 

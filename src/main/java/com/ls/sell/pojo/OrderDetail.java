@@ -1,4 +1,4 @@
-package com.ls.sell.dataobject;
+package com.ls.sell.pojo;
 
 import lombok.Builder;
 import lombok.Data;

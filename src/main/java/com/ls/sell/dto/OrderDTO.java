@@ -1,7 +1,11 @@
 package com.ls.sell.dto;
 
-import com.ls.sell.dataobject.OrderDetail;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.ls.sell.pojo.OrderDetail;
+import com.ls.sell.utils.serializer.DateToLongSerializer;
+import lombok.Builder;
 import lombok.Data;
+import lombok.experimental.Tolerate;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -15,6 +19,8 @@ import java.util.List;
  **/
 
 @Data
+@Builder
+//@JsonInclude(JsonInclude.Include.NON_NULL)
 public class OrderDTO {
 
     /** 订单ID */
@@ -42,11 +48,17 @@ public class OrderDTO {
     private Integer payStatus ;
 
     /** 创建时间 */
+    @JsonSerialize(using = DateToLongSerializer.class)
     private LocalDateTime createTime;
 
     /** 更新时间 */
+    @JsonSerialize(using = DateToLongSerializer.class)
     private LocalDateTime updateTime;
 
-    private List<OrderDetail> orderDetailList;
 
+    private List<OrderDetail> orderDetailList ;
+
+    @Tolerate
+    public OrderDTO() {
+    }
 }
