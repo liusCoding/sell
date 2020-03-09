@@ -32,5 +32,23 @@ public class LoggerTest {
         log.error("error");
     }
 
+    @Test
+    public void teach(){
+        //定义一个基本类型的整型变量age，赋值10
+        int age = 10;
+
+        //定义一个基本类型的长整型变量time，赋值10000
+        long time = 10000L;
+
+        //定义一个基本类型的双精度浮点型变量money,赋值9.99
+        double money = 9.99;
+
+        //定义一个基本类型的字符型变量c，赋值'z'
+        char c = 'z';
+
+        //定义一个基本类型的布尔类型变量flag ,赋值 true
+        boolean flag = true;
+    }
+
 }
 

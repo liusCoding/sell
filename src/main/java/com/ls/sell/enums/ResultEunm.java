@@ -23,17 +23,31 @@ public enum ResultEunm {
 
     ORDER_DETAIL_EMPTY(16,"订单详情为空"),
 
+    ORDER_PAY_STATUS_ERROR(17,"订单支付状态不正确"),
+
     CART_EMPTY(18,"购物车为空"),
 
     ORDER_OWNER_ERROR(19,"该订单不属于当前用户"),
 
     WECHAT_MP_ERORR(20,"微信公众号错误"),
 
-    URLENCODER_FAIL(21,"url encode 失败")
+    URLENCODER_FAIL(21,"url encode 失败"),
 
-    ;
+   WXPAY_NOTFIY_MOENY_VERIFY_ERROR (22,"微信异步通知支付金额校验不通过"),
 
+    ORDER_CANCEL_SUCCESS(23,"订单取消成功"),
 
+    ORDER_FINISH_SUCCESS(24,"订单完结成功"),
+
+    PRODUCT_STATUS_ERROR(25,"商品状态不正确"),
+
+    PRODUCT_ONSALE_SUCCESS(26,"商品上架成功"),
+
+    PRODUCT_OFFSALE_SUCCESS(27,"商品下架成功"),
+
+    LOGOUT_SUCCESS(29,"登出成功"),
+
+    LOGIN_ERROR(28,"登录失败，登录信息不正确");
     private Integer code;
 
     private String message;

@@ -9,7 +9,7 @@ import lombok.Getter;
 
 @Getter
 public enum ProductStatusEnum implements CodeEnums<Integer>{
-    UP(0,"上架"),
+    UP(0,"在架"),
 
     DOWN(1,"下架") ;
 

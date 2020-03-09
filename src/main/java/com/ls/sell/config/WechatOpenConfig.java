@@ -9,31 +9,30 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * @program: sell->WechatConfig
- * @description: 微信配置
+ * @className: WechatOpenConfig
+ * @description:
  * @author: liusCoding
- * @create: 2019-10-31 19:27
- **/
+ * @create: 2020-03-06 10:18
+ */
 
 @Configuration
-public class WechatConfig {
+public class WechatOpenConfig {
 
     @Autowired
     private WeichatAccountConfig weichatAccountConfig;
 
     @Bean
-    public WxMpService wxMpService(){
-        WxMpService wxMpService = new WxMpServiceImpl();
-
-        wxMpService.setWxMpConfigStorage(wxMpConfigStorage());
-        return wxMpService;
+    public WxMpService wxOpenService(){
+        WxMpServiceImpl wxOpenService = new WxMpServiceImpl();
+        wxOpenService.setWxMpConfigStorage(wxOpenMpConfigStorage());
+        return wxOpenService;
     }
 
-    public WxMpConfigStorage wxMpConfigStorage(){
-
+    @Bean
+    public WxMpConfigStorage wxOpenMpConfigStorage(){
         WxMpDefaultConfigImpl wxMpConfigStorage = new WxMpDefaultConfigImpl();
-        wxMpConfigStorage.setAppId(weichatAccountConfig.getMpAppId());
-        wxMpConfigStorage.setSecret(weichatAccountConfig.getMpAppSecret());
+        wxMpConfigStorage.setAppId(weichatAccountConfig.getOpenAppId());
+        wxMpConfigStorage.setSecret(weichatAccountConfig.getOpenAppSecret());
         return wxMpConfigStorage;
     }
 }

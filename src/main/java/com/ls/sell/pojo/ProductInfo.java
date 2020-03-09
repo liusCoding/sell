@@ -1,9 +1,15 @@
 package com.ls.sell.pojo;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.ls.sell.enums.ProductStatusEnum;
+import com.ls.sell.utils.EnumUtil;
 import lombok.Data;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 /**
  * @program: sell->ProductInfo
@@ -14,6 +20,7 @@ import java.math.BigDecimal;
 
 @Entity
 @Data
+@DynamicUpdate
 public class ProductInfo {
     /** 商品ID */
     @Id
@@ -35,10 +42,19 @@ public class ProductInfo {
     private String productIcon;
 
     /** 商品的状态  0正常  1下架*/
-    private Integer productStatus;
+    private Integer productStatus = 0;
 
     /** 类目编号*/
     private Integer categoryType;
+
+    private LocalDateTime createTime;
+
+    private LocalDateTime updateTime;
+
+    @JsonIgnore
+    public ProductStatusEnum getProductStatusEnum(){
+        return EnumUtil.getByCode(productStatus,ProductStatusEnum.class);
+    }
 
 
 }

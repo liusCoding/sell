@@ -1,8 +1,10 @@
 package com.ls.sell.service.impl;
 
-import com.ls.sell.pojo.OrderDetail;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.ls.sell.dto.OrderDTO;
 import com.ls.sell.enums.OrderStatusEnums;
+import com.ls.sell.pojo.OrderDetail;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
 import org.junit.Test;
@@ -98,7 +100,7 @@ public class IOrderServiceImplTest {
     public void testFindList() {
         Page<OrderDTO> result = orderService.findList(PageRequest.of(0, 2));
 
-        log.info("查询所有的订单列表：{}",result.getContent());
+        log.info("查询所有的订单列表：{}", JSON.toJSONString(result.getContent(), SerializerFeature.PrettyFormat));
         Assert.assertTrue("查询所有的订单列表",result.getTotalElements()>0);
     }
 }

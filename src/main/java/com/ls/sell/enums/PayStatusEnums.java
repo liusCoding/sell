@@ -12,7 +12,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum PayStatusEnums implements CodeEnums<Integer> {
 
-    NEW(0,"未支付"),
+    WAIT(0,"未支付"),
     SUCCESS(1,"支付成功")
     ;
 

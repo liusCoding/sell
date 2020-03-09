@@ -15,7 +15,7 @@
     <description>Demo project for Spring Boot</description>
     <packaging>war</packaging>
     <properties>
-        <java.version>1.8</java.version>
+        <java.version>2.1.1</java.version>
     </properties>
 
     <dependencies>
@@ -70,10 +70,13 @@
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/com.alibaba/fastjson -->
         <dependency>
-            <groupId>com.google.code.gson</groupId>
-            <artifactId>gson</artifactId>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>1.2.62</version>
         </dependency>
+
 
         <dependency>
             <groupId>com.github.binarywang</groupId>
@@ -86,6 +89,22 @@
             <artifactId>best-pay-sdk</artifactId>
             <version>1.3.0</version>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-freemarker</artifactId>
+        </dependency>
+
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-jsr310</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+        </dependency>
+
     </dependencies>
 
 

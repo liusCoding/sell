@@ -106,4 +106,48 @@ public class ProductInfoServiceImpl implements IProductInfoService {
                 }
         );
     }
+
+    /**
+     * 上架商品
+     *
+     * @param productId 商品id
+     * @date: 2020/3/5
+     * @return: com.ls.sell.pojo.ProductInfo
+     **/
+    @Override
+    public ProductInfo onSale(String productId) {
+        ProductInfo productInfo = findById(productId);
+        if(Objects.isNull(productInfo)){
+            throw new SellException(ResultEunm.PRODUCT_NOT_EXIST);
+        }
+        //判断商品状态
+        if(productInfo.getProductStatusEnum().equals(ProductStatusEnum.UP)){
+            throw new SellException(ResultEunm.PRODUCT_STATUS_ERROR);
+        }
+        //更新
+        productInfo.setProductStatus(ProductStatusEnum.UP.getCode());
+        return productInfoRepository.save(productInfo);
+    }
+
+    /**
+     * 下架商品
+     *
+     * @param productId 商品id
+     * @date: 2020/3/5
+     * @return: com.ls.sell.pojo.ProductInfo
+     **/
+    @Override
+    public ProductInfo offSale(String productId) {
+        ProductInfo productInfo = findById(productId);
+        if(Objects.isNull(productInfo)){
+            throw new SellException(ResultEunm.PRODUCT_NOT_EXIST);
+        }
+        //判断商品状态
+        if(productInfo.getProductStatusEnum().equals(ProductStatusEnum.DOWN)){
+            throw new SellException(ResultEunm.PRODUCT_STATUS_ERROR);
+        }
+        //更新
+        productInfo.setProductStatus(ProductStatusEnum.DOWN.getCode());
+        return productInfoRepository.save(productInfo);
+    }
 }

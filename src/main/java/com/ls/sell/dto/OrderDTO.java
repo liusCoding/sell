@@ -1,12 +1,17 @@
 package com.ls.sell.dto;
 
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.ls.sell.enums.OrderStatusEnums;
+import com.ls.sell.enums.PayStatusEnums;
 import com.ls.sell.pojo.OrderDetail;
-import com.ls.sell.utils.serializer.DateToLongSerializer;
+import com.ls.sell.utils.EnumUtil;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.experimental.Tolerate;
+import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -21,7 +26,9 @@ import java.util.List;
 @Data
 @Builder
 //@JsonInclude(JsonInclude.Include.NON_NULL)
-public class OrderDTO {
+@NoArgsConstructor
+@AllArgsConstructor
+public class OrderDTO implements Serializable {
 
     /** 订单ID */
     private String orderId;
@@ -48,17 +55,26 @@ public class OrderDTO {
     private Integer payStatus ;
 
     /** 创建时间 */
-    @JsonSerialize(using = DateToLongSerializer.class)
+    //@JsonSerialize(using = DateToLongSerializer.class)
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
     private LocalDateTime createTime;
 
     /** 更新时间 */
-    @JsonSerialize(using = DateToLongSerializer.class)
+    //@JsonSerialize(using = DateToLongSerializer.class)
+    //@JSONField(format="yyyy-MM-dd HH:mm:ss")
+    //@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime updateTime;
-
 
     private List<OrderDetail> orderDetailList ;
 
-    @Tolerate
-    public OrderDTO() {
+    @JsonIgnore//序列化忽略字段
+    public OrderStatusEnums getOrderStatusEnum() {
+      return EnumUtil.getByCode(orderStatus,OrderStatusEnums.class);
     }
+
+    @JsonIgnore
+    public PayStatusEnums getPayStatusEnumsEnum() {
+        return EnumUtil.getByCode(payStatus,PayStatusEnums.class);
+    }
+
 }

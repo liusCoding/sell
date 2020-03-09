@@ -1,19 +1,21 @@
 package com.ls.sell.service.impl;
 
 import com.ls.sell.converter.OrderMasterToOrderDTOConverter;
-import com.ls.sell.pojo.OrderDetail;
-import com.ls.sell.pojo.OrderMaster;
-import com.ls.sell.pojo.ProductInfo;
 import com.ls.sell.dto.CartDTO;
 import com.ls.sell.dto.OrderDTO;
 import com.ls.sell.enums.OrderStatusEnums;
 import com.ls.sell.enums.PayStatusEnums;
 import com.ls.sell.enums.ResultEunm;
 import com.ls.sell.exception.SellException;
+import com.ls.sell.pojo.OrderDetail;
+import com.ls.sell.pojo.OrderMaster;
+import com.ls.sell.pojo.ProductInfo;
 import com.ls.sell.repository.OrderDetailRepository;
 import com.ls.sell.repository.OrderMasterRepository;
 import com.ls.sell.service.IOrderService;
+import com.ls.sell.service.IPayService;
 import com.ls.sell.service.IProductInfoService;
+import com.ls.sell.service.IPushMessageService;
 import com.ls.sell.utils.KeyUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -40,20 +42,16 @@ import java.util.stream.Collectors;
 @Service
 @Slf4j
 public class OrderServiceImpl implements IOrderService {
-
-    private final IProductInfoService IProductInfoService;
-
-    private final OrderMasterRepository orderMasterRepository;
-
-    private final OrderDetailRepository orderDetailRepository;
-
     @Autowired
-    public OrderServiceImpl(IProductInfoService IProductInfoService, OrderMasterRepository orderMasterRepository, OrderDetailRepository orderDetailRepository) {
-        this.IProductInfoService = IProductInfoService;
-        this.orderMasterRepository = orderMasterRepository;
-        this.orderDetailRepository = orderDetailRepository;
-    }
-
+    private  IProductInfoService IProductInfoService;
+    @Autowired
+    private  OrderMasterRepository orderMasterRepository;
+    @Autowired
+    private  OrderDetailRepository orderDetailRepository;
+    @Autowired
+    private  IPayService payService;
+    @Autowired
+    private IPushMessageService pushMessageService;
 
     /**
      * 创建订单
@@ -97,7 +95,7 @@ public class OrderServiceImpl implements IOrderService {
         BeanUtils.copyProperties(orderDTO,orderMaster);
         orderMaster.setOrderAmount(orderAmount);
         orderMaster.setOrderStatus(OrderStatusEnums.NEW.getCode());
-        orderMaster.setPayStatus(PayStatusEnums.NEW.getCode());
+        orderMaster.setPayStatus(PayStatusEnums.WAIT.getCode());
         orderMasterRepository.save(orderMaster);
 
         //4.扣库存
@@ -118,7 +116,7 @@ public class OrderServiceImpl implements IOrderService {
      * @author liushuai
      */
     @Override
-    public OrderDTO findOne(String orderId) {
+    public OrderDTO findOne(String orderId) throws SellException{
 
         OrderMaster order = orderMasterRepository.getOne(orderId);
 
@@ -198,7 +196,7 @@ public class OrderServiceImpl implements IOrderService {
 
         //如果已经支付，需要退款
         if(orderDTO.getPayStatus().equals(PayStatusEnums.SUCCESS)){
-            //TODO
+            payService.refund(orderDTO);
         }
         return orderDTO;
     }
@@ -212,7 +210,29 @@ public class OrderServiceImpl implements IOrderService {
      */
     @Override
     public OrderDTO finish(OrderDTO orderDTO) {
-        return null;
+        //判断订单状态
+        if(!orderDTO.getOrderStatus().equals(OrderStatusEnums.NEW.getCode())){
+            log.error("【完结订单】订单状态不正确，order={}，orderStatus={}",
+                        orderDTO.getOrderId(),orderDTO.getPayStatusEnumsEnum()
+                    );
+            throw new SellException(ResultEunm.ORDER_STATUS_ERROR);
+        }
+
+        //修改订单状态
+        orderDTO.setOrderStatus(OrderStatusEnums.FINSH.getCode());
+
+        OrderMaster orderMaster = new OrderMaster();
+        BeanUtils.copyProperties(orderDTO,orderMaster);
+        OrderMaster updateResult = orderMasterRepository.save(orderMaster);
+
+        if(Objects.isNull(updateResult)){
+            log.error("【完结订单】更新失败，orderMaster={}",orderMaster);
+            throw new SellException(ResultEunm.ORDER_UPDATE_FAIL);
+        }
+
+        //推送微信模板消息
+        pushMessageService.orderStatus(orderDTO);
+        return orderDTO;
     }
 
     /**
@@ -224,7 +244,30 @@ public class OrderServiceImpl implements IOrderService {
      */
     @Override
     public OrderDTO paid(OrderDTO orderDTO) {
-        return null;
+        //判断订单状态
+        if(!orderDTO.getOrderStatus().equals(OrderStatusEnums.NEW.getCode())){
+            log.error("【订单支付完成】订单状态不正确，orderId={},orderStatus={}",
+                    orderDTO.getOrderId(),
+                    orderDTO.getOrderStatus());
+            throw new SellException(ResultEunm.ORDER_STATUS_ERROR);
+        }
+
+        //判断支付状态
+        if(!orderDTO.getPayStatus().equals(PayStatusEnums.WAIT.getCode())){
+            log.error("【订单支付完成】订单支付状态不正确，orderDTO={}",orderDTO);
+            throw new SellException(ResultEunm.ORDER_PAY_STATUS_ERROR);
+        }
+
+        //修改支付状态
+        orderDTO.setPayStatus(PayStatusEnums.SUCCESS.getCode());
+        OrderMaster orderMaster = new OrderMaster();
+        BeanUtils.copyProperties(orderDTO,orderMaster);
+        OrderMaster updateResult = orderMasterRepository.save(orderMaster);
+        if(Objects.isNull(updateResult)){
+            log.error("【订单同步失败】 更新失败，orderMaster={}",orderMaster);
+            throw new SellException(ResultEunm.ORDER_UPDATE_FAIL);
+        }
+        return orderDTO;
     }
 
     /**

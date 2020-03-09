@@ -86,7 +86,7 @@ public class BuyerOrderController {
      */
     @GetMapping("/list")
     public ResultVO<List<OrderDTO>> list(@RequestParam("openid") String openid,
-                                         @RequestParam(value = "page",defaultValue = "0") Integer page,
+                                         @RequestParam(value = "page",defaultValue = "1") Integer page,
                                          @RequestParam(value = "size",defaultValue = "10") Integer size){
 
         if(StringUtils.isEmpty(openid)){
@@ -94,7 +94,7 @@ public class BuyerOrderController {
             throw new SellException(ResultEunm.PARAM_ERROR);
         }
 
-        PageRequest pageable = PageRequest.of(page, size);
+        PageRequest pageable = PageRequest.of(page-1, size);
 
         Page<OrderDTO> orderDTOPage = IOrderService.findList(openid, pageable);
 

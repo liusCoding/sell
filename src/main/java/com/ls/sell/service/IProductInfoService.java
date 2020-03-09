@@ -63,6 +63,20 @@ public interface IProductInfoService {
      */
     void decreaseStock(List<CartDTO> cartDTOList);
 
+    /**
+     * 上架商品
+     * @date: 2020/3/5
+     * @param productId 商品id
+     * @return: com.ls.sell.pojo.ProductInfo
+     **/
+    ProductInfo onSale(String productId);
 
+    /**
+     * 下架商品
+     * @date: 2020/3/5
+     * @param productId 商品id
+     * @return: com.ls.sell.pojo.ProductInfo
+     **/
+    ProductInfo offSale(String productId);
 
 }

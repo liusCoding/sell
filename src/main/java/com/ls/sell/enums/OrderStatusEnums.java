@@ -4,11 +4,11 @@ import lombok.Getter;
 
 /** 订单状态 */
 @Getter
-public enum OrderStatusEnums {
+public enum OrderStatusEnums implements CodeEnums<Integer> {
 
     NEW(1,"新订单"),
-    FINSH(2,"完成订单"),
-    CANEL(3,"取消订单")
+    FINSH(2,"已完成"),
+    CANEL(3,"已取消")
     ;
 
 

@@ -29,7 +29,7 @@ public class OrderMasterRepositoryTest {
                 .buyerAddress("商报社大厦").buyerPhone("95508")
                 .buyerOpenid("abc123").orderAmount(new BigDecimal(88.88))
                 .orderStatus(OrderStatusEnums.NEW.getCode())
-                .payStatus(PayStatusEnums.NEW.getCode()).build();
+                .payStatus(PayStatusEnums.WAIT.getCode()).build();
 
         OrderMaster result = repository.save(order);
 

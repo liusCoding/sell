@@ -48,7 +48,7 @@ public class OrderMaster {
     private Integer orderStatus = OrderStatusEnums.NEW.getCode();
 
     /** 支付状态 默认为0未支付*/
-    private Integer payStatus = PayStatusEnums.NEW.getCode();
+    private Integer payStatus = PayStatusEnums.WAIT.getCode();
 
     /** 创建时间 */
     private LocalDateTime createTime;
